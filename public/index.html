@@ -5,9 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Passwordless Node</title>
+    <style>
+      body { font-family: sans-serif;}
+    </style>
   </head>
   <body>
     <h2>Passwordless API with Node.js</h2>
+    <p>To run this example you must first add yor API key in index.html and your API Secret in app.js</p>
+    <p><a href="https://docs.passwordless.dev/guide/getting-started.html#introduction">Documentation</a> - <a href="https://beta.passwordless.dev/create-account">Get your API keys</a></p>
 
     <input type="text" id="username" placeholder="username or userid" />
     <button id="passwordless-register">Register</button>
@@ -31,6 +36,10 @@
         status.innerText = newLine + currentText;
       }
       Status("Welcome! Please register or sign in");
+
+      if(API_KEY === "YOUR_API_KEY") {
+        Status("WARNING: Please change the API_KEY in index.html and API_KEY_SECRET in app.js before running the example.")
+      }
     </script>
     <script>
       async function RegisterPasswordless(e) {
