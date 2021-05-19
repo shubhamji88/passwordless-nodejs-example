@@ -104,9 +104,9 @@
            * Sign in - The Passwordless API and the browser initiates a sign in based on the username
            */
 
-          var userUUID = await fetch("user/passwordless-id").then(r => r.text()); // uuuiid
+          //var userId = await fetch("user/passwordless-id").then(r => r.text()); // get user id from database
 
-          const token = await p.signin(userUUID);
+          const token = await p.signin(username);
           /**
            * Verify the sign in - Call your node backend to verify the token created from the sign in
            */
