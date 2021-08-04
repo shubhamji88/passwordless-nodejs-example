@@ -36,6 +36,7 @@ app.get("/create-token", async (req, res) => {
     userId,
     username: alias,
     displayname,
+    aliases: [alias] // We can also set aliases for the userid, so that signin can be initiated without knowing the userid
   };
 
   console.log("creating-token");
@@ -50,21 +51,6 @@ app.get("/create-token", async (req, res) => {
   console.log("received token", token);
 
   res.send(token);
-
-
-  // We can also set aliases for the userid
-  const response2 = await fetch(apiurl + "/alias", {
-    method: "POST",
-    body: JSON.stringify({
-      userId: userId,
-      aliases: [alias]
-    }),
-    headers: {
-      ApiSecret: API_SECRET, 
-      'Content-Type': 'application/json'
-    }
-  });
-  console.log(response2, await response2.text());
 });
 
 /**
