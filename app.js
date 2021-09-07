@@ -36,7 +36,7 @@ app.get("/create-token", async (req, res) => {
     userId,
     username: alias,
     displayname,
-    aliases: [alias] // We can also set aliases for the userid, so that signin can be initiated without knowing the userid
+    aliases: alias ? [alias] : [] // We can also set aliases for the userid, so that signin can be initiated without knowing the userid
   };
 
   console.log("creating-token");
