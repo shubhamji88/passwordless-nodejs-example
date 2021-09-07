@@ -60,15 +60,20 @@
         /**
          * Create token - Call your node backend to retrieve a token that we can use client-side to register a key to a alias
          */
-        const myToken = await fetch(
+        const backendRequest = await fetch(
           BACKEND_URL + "/create-token?alias=" + alias
-        ).then((r) => r.text());
+        );
+        const backendResponse = await backendRequest.text();
+        if(!backendRequest.ok) {
+          Status(backendResponse);
+          return;
+        }
 
         /**
          *  Register a key - The Passwordless API and browser creates and stores a key, based on the token.
          */
         try {
-          await p.register(myToken);
+          await p.register(backendResponse);
 
           Status("Successfully registered WebAuthn. You can now sign in!");
 

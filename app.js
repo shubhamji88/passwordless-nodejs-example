@@ -46,10 +46,17 @@ app.get("/create-token", async (req, res) => {
     body: JSON.stringify(payload),
     headers: { ApiSecret: API_SECRET, 'Content-Type': 'application/json'}
   });
-  console.log("api response", response);
-  var token = await response.text();
-  console.log("received token", token);
 
+  console.log("passwordless api response", response.status, response);
+  
+  if(response.status == 409) {
+    res.status(409);
+    res.send("Ooops! Alias is already in use by another user. Please choose a unique alias");
+    return;
+  }
+  var token = await response.text();
+  console.log("received token: ", token);
+  res.status(response.status);
   res.send(token);
 });
 
