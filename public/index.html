@@ -65,6 +65,7 @@
         );
         const backendResponse = await backendRequest.text();
         if(!backendRequest.ok) {
+          // If our demo backend did not respond with success, show error in UI
           Status(backendResponse);
           return;
         }
