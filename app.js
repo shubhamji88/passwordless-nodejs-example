@@ -34,7 +34,7 @@ app.get("/create-token", async (req, res) => {
   // grab the userid from session, cookie etc
   const payload = {
     userId,
-    username: alias,
+    username: alias || displayname,
     displayname,
     aliases: alias ? [alias] : [] // We can also set aliases for the userid, so that signin can be initiated without knowing the userid
   };
