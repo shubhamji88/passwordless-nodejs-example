@@ -8,6 +8,10 @@ const apiurl = process.env.API_URL || "https://apiv2.passwordless.dev";
 const API_SECRET = process.env.API_SECRET || "YOUR_API_SECRET"; // Replace with your API secret
 const API_KEY = process.env.API_KEY || "YOUR_API_KEY"; // this will be injected to index.html
 
+console.log("Using API URL: " + apiurl);
+console.log("Using API key: " + API_KEY);
+console.log("Using API secret: " + API_SECRET);
+
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   next();
@@ -47,7 +51,7 @@ app.get("/create-token", async (req, res) => {
     headers: { ApiSecret: API_SECRET, 'Content-Type': 'application/json'}
   });
 
-  console.log("passwordless api response", response.status, response);
+  console.log("passwordless api response", response.status, response.statusText);
   
   if(response.status == 409) {
     res.status(409);
