@@ -4,7 +4,7 @@ const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
 
-const apiurl = process.env.API_URL || "https://apiv2.passwordless.dev";
+const apiurl = process.env.API_URL || "https://v3.passwordless.dev";
 const API_SECRET = process.env.API_SECRET || "YOUR_API_SECRET"; // Replace with your API secret
 const API_KEY = process.env.API_KEY || "YOUR_API_KEY"; // this will be injected to index.html
 
