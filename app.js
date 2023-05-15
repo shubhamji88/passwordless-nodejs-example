@@ -113,9 +113,19 @@ app.get("", (req, res) => {
 // serve static/html files
 app.use(express.static("public"));
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
+
+
+const shutdown = () => {
+  console.log('Stopping ...');
+  server.close(() => {
+    console.log('Stopped');
+  });
+};
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
