@@ -1,5 +1,9 @@
 const express = require("express");
 const fetch = require("node-fetch");
+const https = require("https");
+const agent = new https.Agent({
+  rejectUnauthorized: false
+})
 const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
@@ -43,12 +47,13 @@ app.get("/create-token", async (req, res) => {
     aliases: alias ? [alias] : [] // We can also set aliases for the userid, so that signin can be initiated without knowing the userid
   };
 
-  console.log("creating-token");
+  console.log("creating-token", apiurl);
   // Send the username to the passwordless api to get a token
   var response = await fetch(apiurl + "/register/token", {
     method: "POST",
     body: JSON.stringify(payload),
-    headers: { ApiSecret: API_SECRET, 'Content-Type': 'application/json'}
+    headers: { ApiSecret: API_SECRET, 'Content-Type': 'application/json'},
+    agent
   });
 
   console.log("passwordless api response", response.status, response.statusText);
@@ -90,7 +95,8 @@ app.get("/verify-signin", async (req, res) => {
   const response = await fetch(apiurl + "/signin/verify", {
     method: "POST",
     body: JSON.stringify(token),
-    headers: { ApiSecret: API_SECRET, 'Content-Type': 'application/json' }
+    headers: { ApiSecret: API_SECRET, 'Content-Type': 'application/json' },
+    agent
   });
 
   var body = await response.json();
