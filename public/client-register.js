@@ -13,7 +13,7 @@ async function handleRegisterClick(e) {
     });
 
     /**
-     * Create token - Call your node backend to retrieve a token that we can use client-side to register a key to a alias
+     * Create token - Call your node backend to retrieve a token that we can use client-side to register a passkey to an alias
      */
     const backendRequest = await fetch(
       BACKEND_URL + "/create-token?alias=" + alias
@@ -27,7 +27,7 @@ async function handleRegisterClick(e) {
     }
 
     /**
-     *  Register a key - The Passwordless API and browser creates and stores a key, based on the token.
+     *  Register a key - The Passwordless API and browser creates and stores a passkey, based on the token.
      */
     try {
       const {token, error} = await p.register(backendResponse.token);
@@ -39,7 +39,7 @@ async function handleRegisterClick(e) {
       }
 
       /**
-       * Done - the user can now sign in using the key
+       * Done - the user can now sign in using the passkey
        */
     } catch (e) {
       console.error("Things went bad", e);

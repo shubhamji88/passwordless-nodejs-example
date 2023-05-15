@@ -16,7 +16,7 @@ async function handleSigninClick(e) {
        * Sign in - The Passwordless API and the browser initiates a sign in based on the alias
        */
 
-      //var userId = await fetch("user/passwordless-id").then(r => r.text()); // get user id from database
+      //var userId = await fetch("user/id").then(r => r.json()); // get user id from database
 
       const {token, error} = await p.signinWithAlias(alias);
       //const token = await p.signinWithId(486761564);
