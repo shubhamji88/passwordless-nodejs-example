@@ -8,7 +8,7 @@ const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 3000;
 
-const apiurl = process.env.API_URL || "https://v3.passwordless.dev";
+const apiurl = process.env.API_URL || "https://v4.passwordless.dev";
 const API_SECRET = process.env.API_SECRET || "YOUR_API_SECRET"; // Replace with your API secret
 const API_KEY = process.env.API_KEY || "YOUR_API_KEY"; // this will be injected to index.html
 
@@ -56,17 +56,17 @@ app.get("/create-token", async (req, res) => {
     agent
   });
 
-  console.log("passwordless api response", response.status, response.statusText);
-  
-  if(response.status == 409) {
-    res.status(409);
-    res.send("Ooops! Alias is already in use by another user. Please choose a unique alias");
-    return;
+  var responseData = await response.json();
+
+  console.log("passwordless api response", response.status, response.statusText, responseData);
+    
+  if(response.status == 200) {
+    console.log("received token: ", responseData.token);
   }
-  var token = await response.text();
-  console.log("received token: ", token);
+
   res.status(response.status);
-  res.send(token);
+  res.send(responseData);
+
 });
 
 /**
@@ -91,7 +91,6 @@ app.get("/verify-signin", async (req, res) => {
   const token = { token: req.query.token };
 
   console.log("Validating token", token);
-
   const response = await fetch(apiurl + "/signin/verify", {
     method: "POST",
     body: JSON.stringify(token),
@@ -100,11 +99,13 @@ app.get("/verify-signin", async (req, res) => {
   });
 
   var body = await response.json();
+
   if (body.success) {
     console.log("Succesfully verfied signin for user", body);
   } else {
     console.warn("Sign in failed", body);
   }
+  res.statusCode = response.status;
   res.send(body);
 });
 
