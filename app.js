@@ -24,15 +24,11 @@ app.use(function(req, res, next) {
 /** 
  * Register - Get token from the passwordless API
  * 
- * The passwordless client side code needs a Token to register a key to a UserID.
+ * The passwordless client side code needs a Token to register a passkey to a UserId.
  * The token is used by the Passwordless API to verify that this action is allowed for this user.
  * Your server can create this token by calling the Passwordless API with the ApiSecret.
- * This allows you to control the process, perhaps you only want to allow new users to register or only allow already signed in users to add a Key to their own account.
- * 
- * Request body looks like:
- * { UserID: '12345', displayName:'Anders Åberg'}
- * Response body looks like:
- * "abcdefghiojklmnopq..."
+ * This allows you to control the process, perhaps you only want to allow new users to register or only allow already signed in users to add a passkey to their own account.
+ * Please see: https://docs.passwordless.dev/guide/get-started.html#build-a-registration-flow
  */
 app.get("/create-token", async (req, res) => {
 
@@ -75,17 +71,7 @@ app.get("/create-token", async (req, res) => {
  * The passwordless API handles all the cryptography and WebAuthn details so that you don't need to.
  * In order for you to verify that the sign in was successful and retrieve details such as the username, you need to verify the token that the passwordless client side code returned to you.
  * This is as easy as POST'ing it to together with your ApiSecret.
- * 
- * Request body looks like:
- * { token: "xxxyyyzz..." }
- * Response body looks like:
- * {
-   "success":true,
-   "username":"anders@user.com",
-   "timestamp":"2020-08-21T16:42:48.5061807Z",
-   "rpid":"example.com",
-   "origin":"https://example.com"}
- * 
+ * Please see: https://docs.passwordless.dev/guide/get-started.html#build-a-registration-flow
  */
 app.get("/verify-signin", async (req, res) => {
   const token = { token: req.query.token };
@@ -109,6 +95,8 @@ app.get("/verify-signin", async (req, res) => {
   res.send(body);
 });
 
+
+// Small helper to update API_KEYs:
 // Response with index.html but replace API_KEY value.
 const fs = require('fs');
 app.get("", (req, res) => {
