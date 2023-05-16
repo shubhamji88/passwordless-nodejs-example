@@ -58,11 +58,12 @@ app.get("/create-token", async (req, res) => {
     
   if(response.status == 200) {
     console.log("received token: ", responseData.token);
+  } else {
+    // Handle or log any API error
   }
 
   res.status(response.status);
   res.send(responseData);
-
 });
 
 /**
