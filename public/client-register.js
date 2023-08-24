@@ -2,6 +2,7 @@ async function handleRegisterClick(e) {
     e.preventDefault();
 
     const alias = document.getElementById("alias").value;
+    const username = document.getElementById("username").value;
 
     Status("Starting registering...");
 
@@ -12,14 +13,25 @@ async function handleRegisterClick(e) {
       apiKey: API_KEY
     });
 
+    const signupData = {
+        username: username,
+        alias: alias
+    };
+
     /**
      * Create token - Call your node backend to retrieve a token that we can use client-side to register a passkey to an alias
      */
-    const backendRequest = await fetch(
-      BACKEND_URL + "/create-token?alias=" + alias
-    );
-    const backendResponse = await backendRequest.json();
-    if(!backendRequest.ok) {
+    const response = await fetch(YOUR_BACKEND_URL + "/users/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(signupData)
+    });
+
+    const backendResponse = await response.json();
+
+    if(!response.ok) {
       // If our demo backend did not respond with success, show error in UI
       Status(backendResponse);
       Status("Our backend failed while creating a token: ");
